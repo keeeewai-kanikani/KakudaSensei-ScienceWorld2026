@@ -5,12 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <!-- Google Blockly Library -->
-    <script src="https://unpkg.com/blockly@10.4.3/blockly_compressed.js"></script>
-    <script src="https://unpkg.com/blockly@10.4.3/blocks_compressed.js"></script>
-    <script src="https://unpkg.com/blockly@10.4.3/javascript_compressed.js"></script>
-    <script src="https://unpkg.com/blockly@10.4.3/msg/ja.js"></script>
+    <!-- Local Blockly Library -->
+    <script src="script/vendor/blockly_compressed.js"></script>
+    <script src="script/vendor/blocks_compressed.js"></script>
+    <script src="script/vendor/javascript_compressed.js"></script>
+    <script src="script/vendor/ja.js"></script>
 </head>
 
 <body>
@@ -19,28 +23,60 @@
     </header>
 
     <main>
-
-        <div id="left-panel">
-            <!-- ブロック待機エリア -->
+        <div id="blockly-div">
+            <!-- Blockly workspace will be injected here -->
         </div>
 
-        <div id="game-screen">
-            <!-- ゲーム画面 -->
+        <div id="top-ui">
+            <div id="preview-area">
+                <div class="preview-label">STAGE 1: JUMP OVER THE ROCK</div>
+                <div id="game-world">
+                    <div id="goal">🏁</div>
+                    <div id="rock">🪨</div>
+                    <div id="player">🏃</div>
+                </div>
+            </div>
+            <button id="run-button">
+                <span class="icon">▶</span> 実行する
+            </button>
         </div>
 
-        <div id="scratch-area">
-            <!-- ブロック配置エリア -->
+        <div id="ai-side-panel">
+            <div class="panel-header">AI THINKING PROCESS</div>
+            <div id="ai-log">
+                <div class="log-entry">Waiting for instructions...</div>
+            </div>
+            <div id="vibe-input-container">
+                <input type="text" id="vibe-input" placeholder="AIに指示を出す（例：ジャンプして、120でジャンプして）">
+                <button id="vibe-btn">VIBE!</button>
+            </div>
+            <div id="ai-chara-container">
+                <img src="assets/chara.svg" id="ai-chara" alt="AI Character">
+                <div class="speech-bubble">どうすればいいかな？</div>
+            </div>
         </div>
 
-        <div id="right-panel">
-            <!-- AIとの対話エリア -->
-
+        <!-- AIの「手」アニメーション用コンテナ -->
+        <div id="hand-container">
+            <div id="ai-hand">✋</div>
         </div>
-
     </main>
 
     <!-- Blockly Toolbox XML -->
     <xml id="toolbox" style="display: none">
+        <category name="イベント" colour="60">
+            <block type="when_run"></block>
+        </category>
+        <category name="アクション" colour="20">
+            <block type="move_forward"></block>
+            <block type="jump">
+                <value name="HEIGHT">
+                    <shadow type="math_number">
+                        <field name="NUM">100</field>
+                    </shadow>
+                </value>
+            </block>
+        </category>
         <category name="論理" colour="%{BKY_LOGIC_HUE}">
             <block type="controls_if"></block>
             <block type="logic_compare"></block>
